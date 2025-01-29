@@ -1,288 +1,406 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Hachi+Maru+Pop&family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Playfair+Display:wght@664&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vehicle Routing Problem - Academic Visualization Tool</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #34495e;
-            --accent-color: #3498db;
-            --background-color: #f8f9fa;
-            --text-color: #2c3e50;
-            --border-radius: 8px;
-            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
+  <meta charset="UTF-8">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hachi+Maru+Pop&family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Playfair+Display:wght@664&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vehicle Routing Problem - Academic Visualization Tool</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #2c3e50;
+      --secondary-color: #34495e;
+      --accent-color: #3498db;
+      --background-color: #f8f9fa;
+      --text-color: #2c3e50;
+      --border-radius: 8px;
+      --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
 
-        body {
-            font-family: "poppins", Arial, sans-serif;
-            line-height: 1.6;
-            color: var(--text-color);
-            background-color: var(--background-color);
-            margin: 0;
-            padding: 2rem;
-        }
+    body {
+      font-family: "poppins", Arial, sans-serif;
+      line-height: 1.6;
+      color: var(--text-color);
+      background-color: var(--background-color);
+      margin: 0;
+      padding: 2rem;
+    }
 
-        .header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
+   .header {
+       max-width: 1700px;
+      text-align: center;
+      margin-bottom: 3rem;
+     margin-left:30px
+     
+      padding: 2rem;
+      background: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+    }
 
-        h1 {
-            font-size: 2.5rem;
-            color: var(--primary-color);
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-        }
+    h1 {
+      font-size: 2.5rem;
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
 
-        .subtitle {
-            font-size: 1.2rem;
-            color: var(--secondary-color);
-            margin-bottom: 2rem;
-        }
+    .subtitle {
+      font-size: 1.3rem;
+      color: var(--secondary-color);
+      margin-bottom: 1rem;
+      font-weight: 500;
+    }
 
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 3fr 1fr;
-            gap: 2rem;
-            background: white;
-            padding: 2rem;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-        }
+    .authors {
+      color: var(--text-color);
+      font-size: 1.1rem;
+      margin-top: 1rem;
+    }
 
-        .visualization-container {
-            background: white;
-            padding: 1rem;
-            border-radius: var(--border-radius);
-        }
+    .main-container {
+      max-width: 1700px;
+      margin: 0 auto;
+    
+    }
 
-        canvas {
-            border: 2px solid var(--primary-color);
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-        }
+    .left-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
 
-        .controls-panel {
-            background: white;
-            padding: 1.5rem;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-        }
+    .theory-section {
+      background: white;
+      padding: 2rem;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+    }
 
-        .panel-section {
-            margin-bottom: 2rem;
-        }
+    .theory-section h2 {
+      color: var(--primary-color);
+      border-bottom: 2px solid var(--accent-color);
+      padding-bottom: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
 
-        .panel-title {
-            font-size: 1.2rem;
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid var(--accent-color);
-        }
+    .math-formula {
+      font-family: 'Roboto Mono', monospace;
+      background: #f8fafc;
+      padding: 1rem;
+      border-radius: var(--border-radius);
+      margin: 1rem 0;
+      overflow-x: auto;
+    }
 
-        .slider-container {
-            margin: 1.5rem 0;
-        }
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 3fr 1fr;
+      gap: 2rem;
+      background: white;
+      padding: 2rem;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+    }
 
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: var(--secondary-color);
-            font-weight: 500;
-        }
+    .visualization-container {
+      background: white;
+      padding: 1rem;
+      border-radius: var(--border-radius);
+    }
 
-        input[type="range"] {
-            width: 100%;
-            margin: 0.5rem 0;
-        }
+    canvas {
+      border: 2px solid var(--primary-color);
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+    }
 
-        .button-group {
-            display: flex;
-            gap: 0.5rem;
-            margin: 1rem 0;
-        }
+    .controls-panel {
+      background: white;
+      padding: 1.5rem;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+    }
 
-        button {
-            background: var(--accent-color);
-            color: white;
-            border: none;
-            padding: 0.8rem 1.5rem;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
+    .panel-section {
+      margin-bottom: 2rem;
+    }
 
-        button:hover {
-            background: #2980b9;
-            transform: translateY(-1px);
-        }
+    .panel-title {
+      font-size: 1.2rem;
+      color: var(--primary-color);
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--accent-color);
+    }
 
-        .stats-panel {
-            background: #f8f9fa;
-            padding: 1.5rem;
-            border-radius: var(--border-radius);
-            margin-top: 1.5rem;
-        }
+    .slider-container {
+      margin: 1.5rem 0;
+    }
 
-        .stat-item {
-            display: flex;
-            justify-content: space-between;
-            margin: 0.5rem 0;
-            padding: 0.5rem 0;
-            border-bottom: 1px solid #e9ecef;
-        }
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: var(--secondary-color);
+      font-weight: 500;
+    }
 
-        .stat-label {
-            color: var(--secondary-color);
-            font-weight: 500;
-        }
+    input[type="range"] {
+      width: 100%;
+      margin: 0.5rem 0;
+    }
 
-        .stat-value {
-            color: var(--accent-color);
-            font-weight: 600;
-        }
+    .button-group {
+      display: flex;
+      gap: 0.5rem;
+      margin: 1rem 0;
+    }
 
-        .legend {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
-            padding: 1rem;
-            background: #f8f9fa;
-            border-radius: var(--border-radius);
-        }
+    button {
+      background: var(--accent-color);
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
 
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.9rem;
-        }
+    button:hover {
+      background: #2980b9;
+      transform: translateY(-1px);
+    }
 
-        .legend-color {
-            width: 16px;
-            height: 16px;
-            border-radius: 4px;
-            border: 2px solid rgba(0, 0, 0, 0.1);
-        }
+    .stats-panel {
+      background: #f8f9fa;
+      padding: 1.5rem;
+      border-radius: var(--border-radius);
+      margin-top: 1.5rem;
+    }
 
-        .explanation {
-            background: #e8f4f8;
-            padding: 1.5rem;
-            border-radius: var(--border-radius);
-            margin-bottom: 2rem;
-            border-left: 4px solid var(--accent-color);
-        }
+    .stat-item {
+      display: flex;
+      justify-content: space-between;
+      margin: 0.5rem 0;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #e9ecef;
+    }
 
-        .explanation h3 {
-            color: var(--primary-color);
-            margin-top: 0;
-        }
+    .stat-label {
+      color: var(--secondary-color);
+      font-weight: 500;
+    }
 
-        .explanation ul {
-            margin: 0;
-            padding-left: 1.5rem;
-        }
+    .stat-value {
+      color: var(--accent-color);
+      font-weight: 600;
+    }
 
-        .explanation li {
-            margin: 0.5rem 0;
-            color: var(--secondary-color);
-        }
+    .legend {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+      padding: 1rem;
+      background: #f8f9fa;
+      border-radius: var(--border-radius);
+    }
 
-        @media (max-width: 1024px) {
-            .container {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .legend-color {
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+      border: 2px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .explanation {
+      background: #e8f4f8;
+      padding: 1.5rem;
+      border-radius: var(--border-radius);
+      margin-bottom: 2rem;
+      border-left: 4px solid var(--accent-color);
+    }
+
+    .explanation h3 {
+      color: var(--primary-color);
+      margin-top: 0;
+    }
+
+    .explanation ul {
+      margin: 0;
+      padding-left: 1.5rem;
+    }
+
+    .explanation li {
+      margin: 0.5rem 0;
+      color: var(--secondary-color);
+    }
+    
+    .references {
+      margin-top: 3rem;
+      padding: 2rem;
+      background: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+    }
+
+    .references h2 {
+      color: var(--primary-color);
+      margin-bottom: 1.5rem;
+    }
+
+    .reference-list {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .reference-item {
+      margin-bottom: 1rem;
+      padding-left: 2rem;
+      position: relative;
+    }
+
+    .reference-item::before {
+      content: "[" attr(data-index) "]";
+      position: absolute;
+      left: 0;
+      color: var(--accent-color);
+      font-weight: 500;
+    }
+
+    @media (max-width: 1200px) {
+      .main-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 1024px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
-<div class="header">
+  
+
+  <div class="main-container">
+    <div class="left-panel">
+      <div class="header">
     <h1>Vehicle Routing Problem</h1>
-    <div class="subtitle">Genetic Algorithm Optimization & Visualization</div>
-</div>
+    <div class="subtitle">An Interactive Study of Genetic Algorithm Optimization</div>
+    <div class="authors">Department of Computer Science</div>
+  </div>
+      <div class="theory-section">
+        <h2>Theoretical Background</h2>
+        <p>The Vehicle Routing Problem (VRP) is a combinatorial optimization problem seeking to minimize the total route cost while serving all customers with vehicle capacity constraints.</p>
+        
+        <div class="math-formula">
+          Minimize: Z = Σᵢⱼ cᵢⱼxᵢⱼ
+          Subject to:
+          Σⱼ xᵢⱼ = 1, ∀i ∈ V\{0}
+          Σᵢ dᵢyᵢₖ ≤ Q, ∀k ∈ K
+        </div>
+        
+        <p>where:</p>
+        <ul>
+          <li>cᵢⱼ: cost of traveling from node i to j</li>
+          <li>xᵢⱼ: binary decision variable</li>
+          <li>dᵢ: demand at node i</li>
+          <li>Q: vehicle capacity</li>
+        </ul>
+      </div>
 
-<div class="explanation">
-    <h3>Algorithm Overview</h3>
-    <p>This visualization demonstrates the application of genetic algorithms to solve the Vehicle Routing Problem (VRP):</p>
-    <ul>
-        <li>■ Depots: Central distribution points (represented by squares)</li>
-        <li>● Customers: Delivery locations (represented by circles)</li>
-        <li>― Routes: Optimized paths for each vehicle</li>
-        <li>🎨 Colors: Distinct depot and vehicle assignments</li>
-    </ul>
-</div>
-
-<div class="container">
+  <div class="container">
     <div class="visualization-container">
-        <canvas id="canvas" width="800" height="600"></canvas>
-        <div class="legend" id="legend"></div>
+      <canvas id="canvas" width="800" height="600"></canvas>
+      <div class="legend" id="legend"></div>
     </div>
 
     <div class="controls-panel">
-        <div class="panel-section">
-            <div class="panel-title">Algorithm Parameters</div>
-
-            <div class="slider-container">
-                <label for="speedSlider">
-                    <i class="fas fa-tachometer-alt"></i> Animation Speed
-                </label>
-                <input type="range" id="speedSlider" min="50" max="500" value="100">
-            </div>
-
-            <div class="slider-container">
-                <label for="mutationSlider">
-                    <i class="fas fa-random"></i> Mutation Rate
-                </label>
-                <input type="range" id="mutationSlider" min="1" max="50" value="10">
-                <span id="mutationValue">10%</span>
-            </div>
+      <div class="panel-section">
+        <div class="panel-title">Algorithm Parameters</div>
+        
+        <div class="slider-container">
+          <label for="speedSlider">
+            <i class="fas fa-tachometer-alt"></i> Animation Speed
+          </label>
+          <input type="range" id="speedSlider" min="50" max="500" value="100">
         </div>
 
-        <div class="button-group">
-            <button id="startButton">
-                <i class="fas fa-play"></i> Start
-            </button>
-            <button id="pauseButton">
-                <i class="fas fa-pause"></i> Pause
-            </button>
-            <button id="resetButton">
-                <i class="fas fa-redo"></i> Reset
-            </button>
+        <div class="slider-container">
+          <label for="mutationSlider">
+            <i class="fas fa-random"></i> Mutation Rate
+          </label>
+          <input type="range" id="mutationSlider" min="1" max="50" value="10">
+          <span id="mutationValue">10%</span>
         </div>
+      </div>
 
-        <div class="stats-panel">
-            <div class="panel-title">Performance Metrics</div>
-            <div class="stat-item">
-                <span class="stat-label">Generation:</span>
-                <span class="stat-value" id="generationCount">0</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-label">Best Distance:</span>
-                <span class="stat-value" id="bestDistance">0</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-label">Improvement:</span>
-                <span class="stat-value" id="improvement">0%</span>
-            </div>
+      <div class="button-group">
+        <button id="startButton">
+          <i class="fas fa-play"></i> Start
+        </button>
+        <button id="pauseButton">
+          <i class="fas fa-pause"></i> Pause
+        </button>
+        <button id="resetButton">
+          <i class="fas fa-redo"></i> Reset
+        </button>
+      </div>
+
+      <div class="stats-panel">
+        <div class="panel-title">Performance Metrics</div>
+        <div class="stat-item">
+          <span class="stat-label">Generation:</span>
+          <span class="stat-value" id="generationCount">0</span>
         </div>
+        <div class="stat-item">
+          <span class="stat-label">Best Distance:</span>
+          <span class="stat-value" id="bestDistance">0</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Improvement:</span>
+          <span class="stat-value" id="improvement">0%</span>
+        </div>
+      </div>
+      
     </div>
-</div>
+    
+  </div>
+      
+       <div class="references">
+    <h2>References</h2>
+    <ul class="reference-list">
+      <li class="reference-item" data-index="1">
+        Laporte, G. (2009). "Fifty Years of Vehicle Routing." Transportation Science, 43(4), 408-416.
+      </li>
+      <li class="reference-item" data-index="2">
+        Toth, P., & Vigo, D. (2014). "Vehicle Routing: Problems, Methods, and Applications." SIAM.
+      </li>
+      <li class="reference-item" data-index="3">
+        Goldberg, D. E. (1989). "Genetic Algorithms in Search, Optimization and Machine Learning." Addison-Wesley.
+      </li>
+    </ul>
+  </div>
+      
 
-<script>
+  <script>
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext("2d");
     const speedSlider = document.getElementById("speedSlider");
@@ -296,7 +414,7 @@
     let initialBestDistance = 0;
 
     // Configuration
-    const numDepots = 3;
+    const numDepots = 4;
     const numVehiclesPerDepot = 3;
     const numCustomers = 30;
     const canvasWidth = canvas.width;
@@ -304,134 +422,134 @@
     const maxGenerations = 200;
 
     // Generate colors with better visibility
-    const depotColors = Array.from({ length: numDepots }, (_, i) =>
-        `hsl(${(i * 360) / numDepots}, 70%, 50%)`
+    const depotColors = Array.from({ length: numDepots }, (_, i) => 
+      `hsl(${(i * 360) / numDepots}, 70%, 50%)`
     );
 
     // Create legend
     depotColors.forEach((color, i) => {
-        const legendItem = document.createElement("div");
-        legendItem.className = "legend-item";
-        legendItem.innerHTML = `
+      const legendItem = document.createElement("div");
+      legendItem.className = "legend-item";
+      legendItem.innerHTML = `
         <div class="legend-color" style="background: ${color}"></div>
         <span>Depot ${i + 1}</span>
       `;
-        legendDiv.appendChild(legendItem);
+      legendDiv.appendChild(legendItem);
     });
 
     // Generate random depots with better spacing
     const depots = Array.from({ length: numDepots }, (_, i) => ({
-        x: (canvasWidth * (i + 1)) / (numDepots + 1),
-        y: canvasHeight / 2 + (Math.random() - 0.5) * canvasHeight / 3,
+      x: (canvasWidth * (i + 1)) / (numDepots + 1),
+      y: canvasHeight / 2 + (Math.random() - 0.5) * canvasHeight / 3,
     }));
 
     // Generate random customers with minimum distance constraints
     const customers = [];
     while (customers.length < numCustomers) {
-        const customer = {
-            x: Math.random() * canvasWidth,
-            y: Math.random() * canvasHeight,
-        };
-
-        // Ensure minimum distance from depots and other customers
-        const minDistance = 30;
-        const isTooClose = [...depots, ...customers].some(
-            point => distance(point, customer) < minDistance
-        );
-
-        if (!isTooClose) {
-            customers.push(customer);
-        }
+      const customer = {
+        x: Math.random() * canvasWidth,
+        y: Math.random() * canvasHeight,
+      };
+      
+      // Ensure minimum distance from depots and other customers
+      const minDistance = 30;
+      const isTooClose = [...depots, ...customers].some(
+        point => distance(point, customer) < minDistance
+      );
+      
+      if (!isTooClose) {
+        customers.push(customer);
+      }
     }
 
     function distance(point1, point2) {
-        return Math.sqrt(
-            Math.pow(point1.x - point2.x, 2) + Math.pow(point1.y - point2.y, 2)
-        );
+      return Math.sqrt(
+        Math.pow(point1.x - point2.x, 2) + Math.pow(point1.y - point2.y, 2)
+      );
     }
 
     function generateRandomSolution() {
-        const solution = Array.from({ length: numDepots }, () =>
-            Array.from({ length: numVehiclesPerDepot }, () => [])
-        );
-
-        customers.forEach((customer) => {
-            const depotIndex = Math.floor(Math.random() * numDepots);
-            const vehicleIndex = Math.floor(Math.random() * numVehiclesPerDepot);
-            solution[depotIndex][vehicleIndex].push(customer);
-        });
-
-        return solution;
+      const solution = Array.from({ length: numDepots }, () =>
+        Array.from({ length: numVehiclesPerDepot }, () => [])
+      );
+      
+      customers.forEach((customer) => {
+        const depotIndex = Math.floor(Math.random() * numDepots);
+        const vehicleIndex = Math.floor(Math.random() * numVehiclesPerDepot);
+        solution[depotIndex][vehicleIndex].push(customer);
+      });
+      
+      return solution;
     }
 
     function calculateFitness(solution) {
-        let totalDistance = 0;
-        solution.forEach((depotVehicles, depotIndex) => {
-            depotVehicles.forEach((route) => {
-                if (route.length > 0) {
-                    let lastPoint = depots[depotIndex];
-                    route.forEach((customer) => {
-                        totalDistance += distance(lastPoint, customer);
-                        lastPoint = customer;
-                    });
-                    totalDistance += distance(lastPoint, depots[depotIndex]);
-                }
+      let totalDistance = 0;
+      solution.forEach((depotVehicles, depotIndex) => {
+        depotVehicles.forEach((route) => {
+          if (route.length > 0) {
+            let lastPoint = depots[depotIndex];
+            route.forEach((customer) => {
+              totalDistance += distance(lastPoint, customer);
+              lastPoint = customer;
             });
+            totalDistance += distance(lastPoint, depots[depotIndex]);
+          }
         });
-        return totalDistance;
+      });
+      return totalDistance;
     }
 
     function drawSolution(solution) {
-        ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+      ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
-        // Draw customers
-        customers.forEach((customer) => {
-            ctx.fillStyle = "#333";
-            ctx.beginPath();
-            ctx.arc(customer.x, customer.y, 5, 0, Math.PI * 2);
-            ctx.fill();
-        });
+      // Draw customers
+      customers.forEach((customer) => {
+        ctx.fillStyle = "#333";
+        ctx.beginPath();
+        ctx.arc(customer.x, customer.y, 5, 0, Math.PI * 2);
+        ctx.fill();
+      });
 
-        // Draw routes
-        solution.forEach((depotVehicles, depotIndex) => {
-            const color = depotColors[depotIndex];
-            depotVehicles.forEach((route) => {
-                if (route.length > 0) {
-                    ctx.strokeStyle = color;
-                    ctx.lineWidth = 2;
-                    ctx.beginPath();
-                    ctx.moveTo(depots[depotIndex].x, depots[depotIndex].y);
-                    route.forEach((customer) => {
-                        ctx.lineTo(customer.x, customer.y);
-                    });
-                    ctx.lineTo(depots[depotIndex].x, depots[depotIndex].y);
-                    ctx.stroke();
-                }
-            });
-        });
-
-        // Draw depots
-        depots.forEach((depot, index) => {
-            ctx.fillStyle = depotColors[index];
-            ctx.strokeStyle = "#333";
+      // Draw routes
+      solution.forEach((depotVehicles, depotIndex) => {
+        const color = depotColors[depotIndex];
+        depotVehicles.forEach((route) => {
+          if (route.length > 0) {
+            ctx.strokeStyle = color;
             ctx.lineWidth = 2;
             ctx.beginPath();
-            ctx.rect(depot.x - 8, depot.y - 8, 16, 16);
-            ctx.fill();
+            ctx.moveTo(depots[depotIndex].x, depots[depotIndex].y);
+            route.forEach((customer) => {
+              ctx.lineTo(customer.x, customer.y);
+            });
+            ctx.lineTo(depots[depotIndex].x, depots[depotIndex].y);
             ctx.stroke();
+          }
         });
+      });
+
+      // Draw depots
+      depots.forEach((depot, index) => {
+        ctx.fillStyle = depotColors[index];
+        ctx.strokeStyle = "#333";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.rect(depot.x - 8, depot.y - 8, 16, 16);
+        ctx.fill();
+        ctx.stroke();
+      });
     }
 
     function updateStats(generation, bestDistance) {
-        document.getElementById("generationCount").textContent = generation;
-        document.getElementById("bestDistance").textContent = Math.round(bestDistance);
-
-        if (initialBestDistance === 0) {
-            initialBestDistance = bestDistance;
-        }
-
-        const improvement = ((initialBestDistance - bestDistance) / initialBestDistance * 100).toFixed(1);
-        document.getElementById("improvement").textContent = improvement;
+      document.getElementById("generationCount").textContent = generation;
+      document.getElementById("bestDistance").textContent = Math.round(bestDistance);
+      
+      if (initialBestDistance === 0) {
+        initialBestDistance = bestDistance;
+      }
+      
+      const improvement = ((initialBestDistance - bestDistance) / initialBestDistance * 100).toFixed(1);
+      document.getElementById("improvement").textContent = improvement;
     }
 
     let currentGeneration = 0;
@@ -440,143 +558,231 @@
     let bestFitness = Infinity;
 
     function initializeAlgorithm() {
-        currentGeneration = 0;
-        initialBestDistance = 0;
-        const populationSize = 50;
-        population = Array.from({ length: populationSize }, generateRandomSolution);
-        bestSolution = null;
-        bestFitness = Infinity;
-        updateStats(0, Infinity);
+      currentGeneration = 0;
+      initialBestDistance = 0;
+      const populationSize = 50;
+      population = Array.from({ length: populationSize }, generateRandomSolution);
+      bestSolution = null;
+      bestFitness = Infinity;
+      updateStats(0, Infinity);
     }
 
     function geneticAlgorithmStep() {
-        currentGeneration++;
+      currentGeneration++;
 
-        // Sort population by fitness
-        population.sort((a, b) => calculateFitness(a) - calculateFitness(b));
-        const currentBestFitness = calculateFitness(population[0]);
+      // Sort population by fitness
+      population.sort((a, b) => calculateFitness(a) - calculateFitness(b));
+      const currentBestFitness = calculateFitness(population[0]);
+      
+      if (currentBestFitness < bestFitness) {
+        bestFitness = currentBestFitness;
+        bestSolution = JSON.parse(JSON.stringify(population[0]));
+      }
 
-        if (currentBestFitness < bestFitness) {
-            bestFitness = currentBestFitness;
-            bestSolution = JSON.parse(JSON.stringify(population[0]));
-        }
+      // Create next generation
+      const nextGeneration = population.slice(0, population.length / 2);
+      while (nextGeneration.length < population.length) {
+        const parent1 = population[Math.floor(Math.random() * (population.length / 2))];
+        const parent2 = population[Math.floor(Math.random() * (population.length / 2))];
+        const child = crossover(parent1, parent2);
+        mutate(child);
+        nextGeneration.push(child);
+      }
+      
+      population = nextGeneration;
+      drawSolution(bestSolution);
+      updateStats(currentGeneration, bestFitness);
 
-        // Create next generation
-        const nextGeneration = population.slice(0, population.length / 2);
-        while (nextGeneration.length < population.length) {
-            const parent1 = population[Math.floor(Math.random() * (population.length / 2))];
-            const parent2 = population[Math.floor(Math.random() * (population.length / 2))];
-            const child = crossover(parent1, parent2);
-            mutate(child);
-            nextGeneration.push(child);
-        }
-
-        population = nextGeneration;
-        drawSolution(bestSolution);
-        updateStats(currentGeneration, bestFitness);
-
-        if (currentGeneration >= maxGenerations) {
-            stopAlgorithm();
-        }
+      if (currentGeneration >= maxGenerations) {
+        stopAlgorithm();
+      }
     }
 
     function startAlgorithm() {
-        if (!isRunning) {
-            isRunning = true;
-            intervalId = setInterval(geneticAlgorithmStep, speedSlider.value);
-        }
+      if (!isRunning) {
+        isRunning = true;
+        intervalId = setInterval(geneticAlgorithmStep, speedSlider.value);
+      }
     }
 
     function stopAlgorithm() {
-        isRunning = false;
-        if (intervalId !== null) {
-            clearInterval(intervalId);
-            intervalId = null;
-        }
+      isRunning = false;
+      if (intervalId !== null) {
+        clearInterval(intervalId);
+        intervalId = null;
+      }
     }
 
     function crossover(parent1, parent2) {
-        const child = JSON.parse(JSON.stringify(parent1));
-        customers.forEach((customer) => {
-            if (Math.random() < 0.5) {
-                const { depotIndex, vehicleIndex } = findCustomerRoute(parent2, customer);
-                moveCustomerToRoute(child, customer, depotIndex, vehicleIndex);
-            }
-        });
-        return child;
+      const child = JSON.parse(JSON.stringify(parent1));
+      customers.forEach((customer) => {
+        if (Math.random() < 0.5) {
+          const { depotIndex, vehicleIndex } = findCustomerRoute(parent2, customer);
+          moveCustomerToRoute(child, customer, depotIndex, vehicleIndex);
+        }
+      });
+      return child;
     }
 
     function findCustomerRoute(solution, customer) {
-        for (let depotIndex = 0; depotIndex < solution.length; depotIndex++) {
-            for (let vehicleIndex = 0; vehicleIndex < solution[depotIndex].length; vehicleIndex++) {
-                if (solution[depotIndex][vehicleIndex].some(
-                    (c) => c.x === customer.x && c.y === customer.y
-                )) {
-                    return { depotIndex, vehicleIndex };
-                }
-            }
+      for (let depotIndex = 0; depotIndex < solution.length; depotIndex++) {
+        for (let vehicleIndex = 0; vehicleIndex < solution[depotIndex].length; vehicleIndex++) {
+          if (solution[depotIndex][vehicleIndex].some(
+            (c) => c.x === customer.x && c.y === customer.y
+          )) {
+            return { depotIndex, vehicleIndex };
+          }
         }
-        return { depotIndex: 0, vehicleIndex: 0 };
+      }
+      return { depotIndex: 0, vehicleIndex: 0 };
     }
 
     function moveCustomerToRoute(solution, customer, depotIndex, vehicleIndex) {
-        solution.forEach((depotVehicles) =>
-            depotVehicles.forEach((route) => {
-                const customerIndex = route.findIndex(
-                    (c) => c.x === customer.x && c.y === customer.y
-                );
-                if (customerIndex !== -1) route.splice(customerIndex, 1);
-            })
-        );
-        solution[depotIndex][vehicleIndex].push(customer);
+      solution.forEach((depotVehicles) =>
+        depotVehicles.forEach((route) => {
+          const customerIndex = route.findIndex(
+            (c) => c.x === customer.x && c.y === customer.y
+          );
+          if (customerIndex !== -1) route.splice(customerIndex, 1);
+        })
+      );
+      solution[depotIndex][vehicleIndex].push(customer);
     }
 
     function mutate(solution) {
-        const mutationRate = mutationSlider.value / 100;
-        if (Math.random() < mutationRate) {
-            const customer = customers[Math.floor(Math.random() * customers.length)];
-            const depotIndex = Math.floor(Math.random() * numDepots);
-            const vehicleIndex = Math.floor(Math.random() * numVehiclesPerDepot);
-            moveCustomerToRoute(solution, customer, depotIndex, vehicleIndex);
-        }
+      const mutationRate = mutationSlider.value / 100;
+      if (Math.random() < mutationRate) {
+        const customer = customers[Math.floor(Math.random() * customers.length)];
+        const depotIndex = Math.floor(Math.random() * numDepots);
+        const vehicleIndex = Math.floor(Math.random() * numVehiclesPerDepot);
+        moveCustomerToRoute(solution, customer, depotIndex, vehicleIndex);
+      }
     }
 
     // Event Listeners
     document.getElementById("startButton").addEventListener("click", () => {
-        if (!isRunning) {
-            initializeAlgorithm();
-            startAlgorithm();
-        }
+      if (!isRunning) {
+        initializeAlgorithm();
+        startAlgorithm();
+      }
     });
 
     document.getElementById("pauseButton").addEventListener("click", () => {
-        if (isRunning) {
-            stopAlgorithm();
-        } else {
-            startAlgorithm();
-        }
+      if (isRunning) {
+        stopAlgorithm();
+      } else {
+        startAlgorithm();
+      }
     });
 
     document.getElementById("resetButton").addEventListener("click", () => {
-        stopAlgorithm();
-        initializeAlgorithm();
-        drawSolution(generateRandomSolution());
+      stopAlgorithm();
+      initializeAlgorithm();
+      drawSolution(generateRandomSolution());
     });
 
     speedSlider.addEventListener("input", () => {
-        if (isRunning) {
-            stopAlgorithm();
-            startAlgorithm();
-        }
+      if (isRunning) {
+        stopAlgorithm();
+        startAlgorithm();
+      }
     });
 
     mutationSlider.addEventListener("input", () => {
-        mutationValue.textContent = mutationSlider.value + "%";
+      mutationValue.textContent = mutationSlider.value + "%";
     });
+// Add selectedDepot variable to track which depot is selected
+let selectedDepot = null;
+
+// Add click detection function
+function isClickInDepot(x, y, depot) {
+  return x >= depot.x - 8 && x <= depot.x + 8 &&
+         y >= depot.y - 8 && y <= depot.y + 8;
+}
+
+// Add click event listener to canvas
+canvas.addEventListener('click', (event) => {
+  const rect = canvas.getBoundingClientRect();
+  const x = event.clientX - rect.left;
+  const y = event.clientY - rect.top;
+  
+  // Check if a depot was clicked
+  let clickedDepot = null;
+  depots.forEach((depot, index) => {
+    if (isClickInDepot(x, y, depot)) {
+      clickedDepot = index;
+    }
+  });
+  
+  // Toggle selection
+  selectedDepot = (selectedDepot === clickedDepot) ? null : clickedDepot;
+  
+  // Redraw with current solution
+  if (bestSolution) {
+    drawSolution(bestSolution);
+  } else {
+    drawSolution(generateRandomSolution());
+  }
+});
+
+// Modify drawSolution function to handle depot selection
+function drawSolution(solution) {
+  ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+
+  // Draw customers
+  customers.forEach((customer) => {
+    ctx.fillStyle = "#333";
+    ctx.beginPath();
+    ctx.arc(customer.x, customer.y, 5, 0, Math.PI * 2);
+    ctx.fill();
+  });
+
+  // Draw routes
+  solution.forEach((depotVehicles, depotIndex) => {
+    // Only draw routes for selected depot, or all routes if no depot is selected
+    if (selectedDepot === null || selectedDepot === depotIndex) {
+      const color = depotColors[depotIndex];
+      depotVehicles.forEach((route) => {
+        if (route.length > 0) {
+          ctx.strokeStyle = color;
+          // Make non-selected depot routes more transparent
+          ctx.globalAlpha = selectedDepot === null || selectedDepot === depotIndex ? 1 : 0.2;
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.moveTo(depots[depotIndex].x, depots[depotIndex].y);
+          route.forEach((customer) => {
+            ctx.lineTo(customer.x, customer.y);
+          });
+          ctx.lineTo(depots[depotIndex].x, depots[depotIndex].y);
+          ctx.stroke();
+        }
+      });
+    }
+  });
+
+  // Reset global alpha for depot drawing
+  ctx.globalAlpha = 1;
+
+  // Draw depots
+  depots.forEach((depot, index) => {
+    ctx.fillStyle = depotColors[index];
+    ctx.strokeStyle = selectedDepot === index ? "#000" : "#333";
+    ctx.lineWidth = selectedDepot === index ? 3 : 2;
+    ctx.beginPath();
+    ctx.rect(depot.x - 8, depot.y - 8, 16, 16);
+    ctx.fill();
+    ctx.stroke();
+
+    // Add hover effect cursor
+    canvas.style.cursor = isClickInDepot(event?.clientX - canvas.getBoundingClientRect().left, 
+                                       event?.clientY - canvas.getBoundingClientRect().top, 
+                                       depot) ? 'pointer' : 'default';
+  });
+}
 
     // Initial setup
     initializeAlgorithm();
     drawSolution(generateRandomSolution());
-</script>
+  </script>
 </body>
 </html>
